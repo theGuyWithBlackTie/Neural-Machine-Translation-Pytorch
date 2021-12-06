@@ -32,7 +32,11 @@ class Encoder(nn.Module):
 
 
     def forward(self, src, hidden=None):
-        embedded = self.embed(src)
+        # src.shape = [max_len x batch_size]
+        embedded = self.embed(src) # embedded.shape = [max_len x batch_size x embed_size]
+
+        # outputs.shape = [max_len x batch_size x 2 * hidden_size]
+        # hidden.shape  = [2 * num_layers x max_len x hidden_size]
         outputs, hidden = self.gru(embedded, hidden)
 
         # sum bidirectional outputs
@@ -40,3 +44,6 @@ class Encoder(nn.Module):
                     outputs[:, :, self.hidden_size])
 
         return outputs, hidden
+
+
+class Attention
