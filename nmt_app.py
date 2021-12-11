@@ -41,6 +41,7 @@ def train(e, model, optimizer, train_iter, vocab_size, grad_clip, DE, EN):
         torch.nn.utils.clip_grad_norm_(model.parameters(), grad_clip)
         optimizer.step()
         total_loss += loss.data.item()
+        
 
         if b%100 == 0 and b!= 0:
             total_loss = total_loss / 100
@@ -69,14 +70,14 @@ def evaluate(model, val_iter, vocab_size, DE, EN):
             loss         = F.nll_loss(output[1:].view(-1, vocab_size),
                             trg[1:].contiguous().view(-1), ignore_index=pad)
             
-            decoded_batch= model.decode(src, trg, method='greedy-search')
+            decoded_batch= model.decode(src, trg, method='greedy_search')
             decoded_batch_list.append(decoded_batch)
             total_loss += loss.data.item()
 
-        
+
         print("print sample from first decode batch")
         for sentence_index in decoded_batch_list[0]:
-            decoded_text_arr = [EN.vocab.itos[i] for i in sentence_index[0]]
+            decoded_text_arr = [EN.vocab.itos[int(i)] for i in sentence_index]
             decode_sentence  = " ".join(decoded_text_arr[1:-1])
             print("Pred Target: {}".format(decode_sentence))
 
