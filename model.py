@@ -11,14 +11,13 @@ from log import timeit
 
 SOS_token  = 2
 EOS_token  = 3
-MAX_LENGTH = 50
 
 
 
 class Encoder(nn.Module):
     def __init__(self, vocab_size, embed_size, hidden_size, n_layers=1, dropout=0.5):
         super(Encoder, self).__init__()
-
+        self.hidden_size = hidden_size
         # nn.Embedding holds a tensor of dimension (vocab_size x vector_size). vocab_size is total length of vocabulary.
         # vector_size is the length of embedding to be generated. vocab_size is not same as size of inputs.
         # E.g.
@@ -44,7 +43,7 @@ class Encoder(nn.Module):
 
         # sum bidirectional outputs
         outputs = (outputs[:, :, :self.hidden_size] + 
-                    outputs[:, :, self.hidden_size])
+                    outputs[:, :, self.hidden_size:])
 
         return outputs, hidden
 
