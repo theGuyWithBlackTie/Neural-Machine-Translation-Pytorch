@@ -65,7 +65,7 @@ def evaluate(model, val_iter, vocab_size, DE, EN):
             src          = Variable(src.data.cuda())
             trg          = Variable(trg.data.cuda())
 
-            output       = model(src, trg, teacher_forcing_ration=0.0)
+            output       = model(src, trg, teacher_forcing_ratio=0.0)
             loss         = F.nll_loss(output[1:].view(-1, vocab_size),
                             trg[1:].contiguous().view(-1), ignore_index=pad)
             
