@@ -40,7 +40,7 @@ def train(e, model, optimizer, train_iter, vocab_size, grad_clip, DE, EN):
 
         torch.nn.utils.clip_grad_norm_(model.parameters(), grad_clip)
         optimizer.step()
-        total_loss += loss.data.item
+        total_loss += loss.data.item()
 
         if b%100 == 0 and b!= 0:
             total_loss = total_loss / 100
